@@ -32,9 +32,6 @@ function Navbar() {
     }
   };
 
-  useEffect(() => {
-    
-  }, []);
 
   return (
     <>

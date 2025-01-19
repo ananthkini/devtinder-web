@@ -12,27 +12,29 @@ function Feed() {
   const dispatch = useDispatch();
 
   const getFeed = async () => {
-    if (feedData) return;
-    try {
-      const res = await axios.get(
-        BASE_URL + "/user/feed",
+    if (!feedData) {
+      try {
+        const res = await axios.get(
+          BASE_URL + "/user/feed",
 
-        { withCredentials: true }
-      );
+          { withCredentials: true }
+        );
 
-      dispatch(addFeed(res?.data?.data));
-    } catch (err) {
-      console.log(err);
-    }
+        dispatch(addFeed(res?.data?.data));
+        console.log('added',feedData);
+      } catch (err) {
+        console.log(err);
+      }
+    } else dispatch(addFeed(feedData));
   };
 
   useEffect(() => {
     getFeed();
+
   }, []);
 
-  if (!feedData) 
-    return;
-  
+  if (!feedData) return;
+
   if (feedData.length <= 0) {
     return <NotifyBar message={"No person found"} />;
   }
