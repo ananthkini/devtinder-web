@@ -4,7 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionsSlice";
 import NotifyBar from "./NotifyBar";
-
+import LoadingComponents from "./LoadingComponents";
 
 function Connections() {
   const connectionsData = useSelector((store) => store.connections);
@@ -26,23 +26,25 @@ function Connections() {
   }, []);
 
   if (!connectionsData) {
-    return <NotifyBar message={'No Connections found'}/>;
+    return <NotifyBar message={"No Connections found"} />;
   }
   if (connectionsData.length === 0) {
-    return <NotifyBar message={'No Connections found'}/>;
+    return <NotifyBar message={"No Connections found"} />;
   }
   return (
     connectionsData && (
-      <div className="mt-20 mx-10">
+      <div className="mt-10 ">
         <div className="carousel carousel-end rounded-box">
           {connectionsData.map((connection) => {
             const { _id, firstName, lastName, photoUrl, age, gender, about } =
               connection;
             return (
-              <div className="card glass  w-96 shadow-xl mx-10" key={_id}>
-                 {" "}
+              <div
+                className="carousel-item card glass shadow-xl mx-5"
+                key={_id}
+              >
                 <figure>
-                  <img src={photoUrl} alt="Shoes" />
+                  <img src={photoUrl} alt="Shoes" className="w-96" />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">

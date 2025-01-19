@@ -2,27 +2,37 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestsSlice";
+import { addRequests, removeRequests } from "../utils/requestsSlice";
 import NotifyBar from "./NotifyBar";
 
 function Requests() {
   const requestsData = useSelector((store) => store.requests);
   const dispatch = useDispatch();
 
-  const handleRequests = async () => {
+  const recieveRequests = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-      dispatch(addRequests([res?.data?.data?.fromUserId]));
-    //   console.log(res?.data?.data?.fromUserId);
+      dispatch(addRequests(res?.data?.data));
+      //   console.log(res?.data?.data?.fromUserId);
     } catch (err) {
       console.log(err);
     }
   };
+ 
+  const handleRequest = async(status, connectionID) =>{
+    try {
+      const res = await axios.post(BASE_URL+'/requests/review/'+status+'/'+connectionID,{},{withCredentials:true});
+      dispatch(removeRequests(connectionID))
+    } catch (err) {
+      
+    }
+  }
+
 
   useEffect(() => {
-    handleRequests();
+    recieveRequests();
   }, []);
 
   if (!requestsData) {
@@ -33,15 +43,19 @@ function Requests() {
   }
 
   return (
-    <div className="mt-20 mx-10">
-      <div className="carousel carousel-end rounded-box">
+    <div className="mt-10 flex justify-center">
+      <div className="carousel carousel-center rounded-box w-96">
         {requestsData.map((requests) => {
           const { _id, firstName, lastName, photoUrl, age, gender, about } =
-            requests;
+            requests.fromUserId;
+            const connectionID = requests._id;
           return (
-            <div className="card glass w-96 shadow-xl mx-10" key={_id}>
+            <div
+              className="carousel-item card glass shadow-xl mx-5 w-full"
+              key={_id}
+            >
               <figure>
-                <img src={photoUrl} alt="Shoes" />
+                <img src={photoUrl} alt="Shoes" className="w-full" />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">
@@ -50,10 +64,17 @@ function Requests() {
                 <h3>
                   {gender.substr(0, 1).toUpperCase()} {age}
                 </h3>
-                <p>{about}</p>
+                <h4>{about}</h4>
+              </div>
+              <div className="card-footer p-4 mb-10">
                 <div className="card-actions justify-between mt-10 mb-10">
-                  <button className="btn btn-secondary">Reject</button>
-                  <button className="btn btn-primary">Accept</button>
+                  <button className="btn btn-secondary" onClick={() => handleRequest('rejected',connectionID)}>Reject</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleRequest('accepted',connectionID)}
+                  >
+                    Accept
+                  </button>
                 </div>
               </div>
             </div>

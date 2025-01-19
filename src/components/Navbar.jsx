@@ -3,8 +3,10 @@ import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { removeFeed } from "../utils/feedSlice";
+import { removeAllFeed } from "../utils/feedSlice";
 import { useEffect } from "react";
+import { removeConnections } from "../utils/connectionsSlice";
+import { removeAllRequests } from "../utils/requestsSlice";
 
 function Navbar() {
   const userData = useSelector((store) => store.user);
@@ -21,16 +23,17 @@ function Navbar() {
         }
       );
       dispatch(removeUser());
-      dispatch(removeFeed());
+      dispatch(removeConnections());
+      dispatch(removeAllFeed())
+      dispatch(removeAllRequests())
       navigate("/login");
-      console.log(userData);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    console.log("user length - ", userData);
+    
   }, []);
 
   return (

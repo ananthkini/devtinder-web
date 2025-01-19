@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 function Login() {
@@ -11,7 +11,6 @@ function Login() {
   const [errorMsg, setErrorMsg] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   const handleLogin = async () => {
     try {
@@ -30,7 +29,6 @@ function Login() {
     }
   };
 
-
   return (
     <div className="flex justify-center my-10">
       <div className="card bg-base-300 w-96 shadow-xl">
@@ -39,7 +37,7 @@ function Login() {
           <div>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Email Id {emailId}</span>
+                <span className="label-text">Email Id</span>{" "}
               </div>
               <input
                 type="email"
@@ -72,6 +70,11 @@ function Login() {
               Login
             </button>
           </div>
+          {/* <div>
+            <p>
+              New user? <Link to={"/signup"}>Sign up</Link>
+            </p>
+          </div> */}
         </div>
       </div>
     </div>
