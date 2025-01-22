@@ -17,11 +17,11 @@ function App() {
       <Provider store={store}>
         <BrowserRouter basename="/">
           <Routes>
+              <Route path="/login" element={<Login />}></Route>
+              <Route path="/signup" element={<Signup />}></Route>
             <Route path="/" element={<Body />}>
-              <Route path="/" element={<LoginContainer />}></Route>
-              <Route path="/login" element={<LoginContainer />}></Route>
+              <Route path="/" element={<Body />}></Route>
               <Route path="/feed" element={<Feed />}></Route>
-              
               <Route path="/profile" element={<Profile />}></Route>
               <Route path="/connections" element={<Connections />}></Route>
               <Route path="/requests" element={<Requests />}></Route>

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import Toast from "./Toast";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -77,7 +79,8 @@ function Signup() {
   return (
     <>
       <Toast type={tType} message={tMessage} count={count} />
-      <div className="flex justify-center my-10">
+      <Navbar/>
+      <div className="flex justify-center my-10 mb-10">
         <form>
           <div className="card bg-base-300 w-96 shadow-xl">
             <div className="card-body ">
@@ -205,14 +208,15 @@ function Signup() {
                   Sign up
                 </button>
               </div>
-              {/* <div>
+              <div>
           <p>Already a user? <Link to={'/login'}>Login</Link></p>
 
-          </div> */}
+          </div>
             </div>
           </div>
         </form>
       </div>
+      <Footer/>
     </>
   );
 }

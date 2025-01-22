@@ -10,6 +10,7 @@ import LoadingComponents from "./LoadingComponents";
 function Feed() {
   const feedData = useSelector((store) => store.feed);
   const dispatch = useDispatch();
+  
 
   const getFeed = async () => {
     if (!feedData) {
@@ -21,7 +22,7 @@ function Feed() {
         );
 
         dispatch(addFeed(res?.data?.data));
-        console.log('added',feedData);
+        
       } catch (err) {
         console.log(err);
       }
