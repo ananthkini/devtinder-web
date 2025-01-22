@@ -14,8 +14,9 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
     try {
+      e.preventDefault();
       const res = await axios.post(
         BASE_URL + "/login",
         {
@@ -33,52 +34,50 @@ function Login() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <div className="flex justify-center my-10">
         <div className="card bg-base-300 w-96 shadow-xl">
           <div className="card-body ">
             <h2 className="card-title justify-center">Login</h2>
-            <div>
-              <label className="form-control w-full max-w-xs my-2">
-                <div className="label">
-                  <span className="label-text">Email Id</span>{" "}
-                </div>
-                <input
-                  type="email"
-                  className="input input-bordered w-full max-w-xs"
-                  value={emailId}
-                  onChange={(e) => setEmailId(e.target.value)}
-                />
-              </label>
+            <form onSubmit={(e) => handleLogin(e)}>
+              <div>
+                <label className="form-control w-full max-w-xs my-2">
+                  <div className="label">
+                    <span className="label-text">Email Id</span>{" "}
+                  </div>
+                  <input
+                    type="email"
+                    className="input input-bordered w-full max-w-xs"
+                    value={emailId}
+                    onChange={(e) => setEmailId(e.target.value)}
+                  />
+                </label>
 
-              <label className="form-control w-full max-w-xs my-2">
-                <div className="label">
-                  <span className="label-text">Password</span>
-                </div>
-                <input
-                  type="password"
-                  placeholder=""
-                  className="input input-bordered w-full max-w-xs"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </label>
-            </div>
-            <p className="text-red-500">{errorMsg}</p>
-            <div className="card-actions justify-center m-2">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleLogin}
-              >
-                Login
-              </button>
-            </div>
-            <div>
-              <p>
-                New user? <Link to={"/signup"}>Sign up</Link>
-              </p>
-            </div>
+                <label className="form-control w-full max-w-xs my-2">
+                  <div className="label">
+                    <span className="label-text">Password</span>
+                  </div>
+                  <input
+                    type="password"
+                    placeholder=""
+                    className="input input-bordered w-full max-w-xs"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </label>
+              </div>
+              <p className="text-red-500">{errorMsg}</p>
+              <div className="card-actions justify-center m-2">
+                <button type="submit" className="btn btn-primary">
+                  Login
+                </button>
+              </div>
+              <div>
+                <p>
+                  New user? <Link to={"/signup"}>Sign up</Link>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </div>
