@@ -74,7 +74,7 @@ function Login() {
               </div>
               <div className="mt-5">
                 <p>
-                  New user? <Link to={"/signup"}>Sign up</Link>
+                  New user? <Link to={"/signup"}><b>Sign up</b></Link>
                 </p>
               </div>
             </form>
