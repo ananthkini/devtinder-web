@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import Toast from "./Toast";
@@ -9,7 +9,7 @@ import Footer from "./Footer";
 function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("male");
+  const [gender, setGender] = useState("");
   const [about, setAbout] = useState("");
   const [age, setAge] = useState();
   const [photoUrl, setPhotoUrl] = useState("");
@@ -21,7 +21,22 @@ function Signup() {
   const [tMessage, setTmessage] = useState("");
   const [count, setCount] = useState(0);
 
-  const handleSignup = async () => {
+  const handleReset = () => {
+    setFirstName("");
+    setLastName("");
+    setEmailId("");
+    setPassword("");
+    setPhotoUrl("");
+    setGender("");
+    setAge("");
+    setAbout("");
+    setSkills("");
+    setErrorMsg("");
+    return;
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
     setAge(parseInt(age));
     setCount(count + 1);
     try {
@@ -72,6 +87,9 @@ function Signup() {
         } else if (err.response.data.includes("ath `age` is required.")) {
           setTmessage("Enter a valid age");
           setTtype("error");
+        } else if (err.response.data.includes("Path `gender` is required")) {
+          setTmessage("Select your gender");
+          setTtype("error");
         }
       }
     }
@@ -79,144 +97,152 @@ function Signup() {
   return (
     <>
       <Toast type={tType} message={tMessage} count={count} />
-      <Navbar/>
+      <Navbar />
       <div className="flex justify-center my-10 mb-10">
-        <form>
-          <div className="card bg-base-300 w-96 shadow-xl">
-            <div className="card-body ">
-              <h2 className="card-title justify-center">Sign up</h2>
+        <div className="card bg-base-300 w-1/2 shadow-xl">
+          <div className="card-body ">
+            <h2 className="card-title justify-center">Sign up</h2>
+            <form onSubmit={(e) => handleSignup(e)}>
               <div>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">First name</span>
-                  </div>
-                  <input
-                    type="text"
-                    className="input input-bordered w-full max-w-xs"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </label>
+                <div className="flex justify-start">
+                  <label className="form-control w-96 mr-2">
+                    <div className="label">
+                      <span className="label-text">First name</span>
+                    </div>
+                    <input
+                      type="text"
+                      className="input input-bordered w-full max-w-xs"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </label>
 
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Last name</span>
-                  </div>
-                  <input
-                    type="text"
-                    className="input input-bordered w-full max-w-xs"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </label>
+                  <label className="form-control w-96 ">
+                    <div className="label">
+                      <span className="label-text">Last name</span>
+                    </div>
+                    <input
+                      type="text"
+                      className="input input-bordered w-full max-w-xs"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </label>
+                </div>
+                <div className="flex justify-start">
+                  <label className="form-control w-96 mr-2">
+                    <div className="label">
+                      <span className="label-text">Email Id </span>
+                    </div>
+                    <input
+                      type="email"
+                      className="input input-bordered w-full max-w-xs"
+                      value={emailId}
+                      onChange={(e) => setEmailId(e.target.value)}
+                    />
+                  </label>
+                  <label className="form-control w-96 ">
+                    <div className="label">
+                      <span className="label-text">Password</span>
+                    </div>
+                    <input
+                      type="password"
+                      placeholder=""
+                      className="input input-bordered w-full max-w-xs"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </label>
+                </div>
+                <div className="flex justify-start">
+                  <label className="form-control w-96  mr-2">
+                    <div className="label">
+                      <span className="label-text">Photo URL</span>
+                    </div>
+                    <textarea
+                      className="input input-bordered w-full max-w-xs"
+                      value={photoUrl}
+                      onChange={(e) => setPhotoUrl(e.target.value)}
+                    />
+                  </label>
 
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Email Id </span>
-                  </div>
-                  <input
-                    type="email"
-                    className="input input-bordered w-full max-w-xs"
-                    value={emailId}
-                    onChange={(e) => setEmailId(e.target.value)}
-                  />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Password</span>
-                  </div>
-                  <input
-                    type="password"
-                    placeholder=""
-                    className="input input-bordered w-full max-w-xs"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </label>
+                  <label className="form-control w-96">
+                    <div className="label">
+                      <span className="label-text">Gender</span>
+                    </div>
+                    <select
+                      className="select input-bordered w-full max-w-xs"
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                    >
+                      <option value="">Select a Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </label>
+                </div>
+                <div className="flex justify-start">
+                  <label className="form-control w-96 mr-2">
+                    <div className="label">
+                      <span className="label-text">Age</span>
+                    </div>
+                    <input
+                      type="number"
+                      className="input input-bordered w-full max-w-xs"
+                      value={age}
+                      onChange={(e) => setAge(parseInt(e.target.value))}
+                    />
+                  </label>
+                </div>
+                <div className="flex justify-start">
+                  <label className="form-control w-96  mr-2">
+                    <div className="label">
+                      <span className="label-text">About</span>
+                    </div>
+                    <textarea
+                      className="textarea input-bordered w-full max-w-xs"
+                      value={about}
+                      onChange={(e) => setAbout(e.target.value)}
+                    />
+                  </label>
 
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Photo URL</span>
-                  </div>
-                  <textarea
-                    className="input input-bordered w-full max-w-xs"
-                    value={photoUrl}
-                    onChange={(e) => setPhotoUrl(e.target.value)}
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Gender</span>
-                  </div>
-                  <select
-                    className="select w-full max-w-xs"
-                    
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                  >
-                    <option value="male">
-                      Male
-                    </option>
-                    <option value="female">Female</option>
-                  </select>
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Age</span>
-                  </div>
-                  <input
-                    type="number"
-                    className="input input-bordered w-full max-w-xs"
-                    value={age}
-                    onChange={(e) => setAge(parseInt(e.target.value))}
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">About</span>
-                  </div>
-                  <textarea
-                    className="textarea"
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Skills</span>
-                  </div>
-                  <textarea
-                    type="password"
-                    placeholder=""
-                    className="textarea"
-                    value={skills}
-                    onChange={(e) => setSkills(e.target.value)}
-                  />
-                </label>
+                  <label className="form-control w-96">
+                    <div className="label">
+                      <span className="label-text">Skills</span>
+                    </div>
+                    <textarea
+                      type="password"
+                      placeholder=""
+                      className="textarea input-bordered w-full max-w-xs"
+                      value={skills}
+                      onChange={(e) => setSkills(e.target.value)}
+                    />
+                  </label>
+                </div>
               </div>
               <p className="text-red-500">{errorMsg}</p>
-              <div className="card-actions justify-center m-2">
+              <div className="card-actions justify-between mt-5">
                 <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleSignup}
+                  type="reset"
+                  className="btn btn-neutral"
+                  onClick={handleReset}
                 >
+                  Reset
+                </button>
+                <button type="submit" className="btn btn-primary">
                   Sign up
                 </button>
               </div>
-              <div>
-          <p>Already a user? <Link to={'/login'}>Login</Link></p>
-
-          </div>
+            </form>
+            <div className="mt-5">
+              <p>
+                Already a user? <Link to={"/login"}>Login</Link>
+              </p>
             </div>
           </div>
-        </form>
+        </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

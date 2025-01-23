@@ -67,12 +67,12 @@ function Login() {
                 </label>
               </div>
               <p className="text-red-500">{errorMsg}</p>
-              <div className="card-actions justify-center m-2">
+              <div className="card-actions justify-center mt-5">
                 <button type="submit" className="btn btn-primary">
                   Login
                 </button>
               </div>
-              <div>
+              <div className="mt-5">
                 <p>
                   New user? <Link to={"/signup"}>Sign up</Link>
                 </p>
