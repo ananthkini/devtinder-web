@@ -4,9 +4,7 @@ import Signup from "./Signup";
 
 function LoginContainer() {
 
-    const handleTabSwitch = () =>{
-        
-    }
+    
   return (
     <div className="my-10">
       <div role="tablist" className="tabs tabs-lifted justify-center">
