@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import Toast from "./Toast";
 import Navbar from "./Navbar";
@@ -20,6 +20,7 @@ function Signup() {
   const [tType, setTtype] = useState("");
   const [tMessage, setTmessage] = useState("");
   const [count, setCount] = useState(0);
+  const navigate = useNavigate()
 
   const handleReset = () => {
     setFirstName("");
@@ -60,6 +61,9 @@ function Signup() {
         setTmessage("User added succefully");
         setTtype("success");
       }
+      handleReset()
+      navigate('/login')
+      
     } catch (err) {
       if ((err.response.status = 400)) {
         if (
@@ -99,7 +103,7 @@ function Signup() {
       <Toast type={tType} message={tMessage} count={count} />
       <Navbar />
       <div className="flex justify-center my-10 mb-10">
-        <div className="card bg-base-300  max-w-xl min-w-md shadow-xl">
+        <div className="card bg-base-300  max-w-xl min-w-md min-h-full shadow-xl">
           <div className="card-body ">
             <h2 className="card-title justify-center">Sign up</h2>
             <form onSubmit={(e) => handleSignup(e)}>
