@@ -14,6 +14,8 @@ function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    console.log(location.host);
+
     try {
       const res = await axios.post(
         BASE_URL + "/logout",

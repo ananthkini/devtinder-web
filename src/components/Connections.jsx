@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionsSlice";
 import NotifyBar from "./NotifyBar";
 import LoadingComponents from "./LoadingComponents";
+import { Link } from "react-router-dom";
 
 function Connections() {
   const connectionsData = useSelector((store) => store.connections);
@@ -55,6 +56,9 @@ function Connections() {
                   </h3>
                   <p>{about}</p>
                 </div>
+                <Link to={"/chat/" + _id}>
+                  <button className="btn btn-primary mb-20">Chat</button>
+                </Link>
               </div>
             );
           })}
